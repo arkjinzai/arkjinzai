@@ -602,6 +602,13 @@ button{ font: inherit; }
 }
 .mode-brochure .container{ width: min(100% - 32px, var(--container)); }
 
+/* ruang aman agar UI (pager & tombol) tidak menutupi gambar */
+.mode-brochure{
+  --ui-left: 74px;   /* lebar area pager */
+  --ui-right: 0px;
+  --ui-bottom: 96px; /* tinggi area tombol kanan bawah */
+}
+
 .brochure{
   height: 100dvh;
   overflow-y: auto;
@@ -614,6 +621,9 @@ button{ font: inherit; }
   display: grid;
   place-items: center;
   padding: 22px 14px;
+  padding-left: calc(14px + var(--ui-left) + env(safe-area-inset-left, 0px));
+  padding-right: calc(14px + var(--ui-right) + env(safe-area-inset-right, 0px));
+  padding-bottom: calc(22px + var(--ui-bottom) + env(safe-area-inset-bottom, 0px));
   background:
     radial-gradient(900px 520px at 50% -20%, rgba(255,255,255,0.10), transparent 70%),
     radial-gradient(700px 520px at 10% 110%, rgba(56,189,248,0.10), transparent 70%),
@@ -625,12 +635,18 @@ button{ font: inherit; }
   border: 0;
   background: transparent;
   border-radius: 18px;
-  max-width: min(980px, 95vw);
+  max-width: min(
+    980px,
+    calc(100vw - var(--ui-left) - var(--ui-right) - 28px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px))
+  );
   width: 100%;
 }
 .brochure-imgFrame{
   border-radius: 18px;
-  max-width: min(980px, 95vw);
+  max-width: min(
+    980px,
+    calc(100vw - var(--ui-left) - var(--ui-right) - 28px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px))
+  );
   width: 100%;
 }
 .brochure-img{
@@ -646,7 +662,7 @@ button{ font: inherit; }
 
 .pager{
   position: fixed;
-  left: 14px;
+  left: calc(14px + env(safe-area-inset-left, 0px));
   top: 50%;
   transform: translateY(-50%);
   display: grid;
@@ -680,8 +696,8 @@ button{ font: inherit; }
 
 .float-actions{
   position: fixed;
-  right: 14px;
-  bottom: 14px;
+  right: calc(14px + env(safe-area-inset-right, 0px));
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
   display: grid;
   gap: 10px;
   z-index: 60;
@@ -707,6 +723,10 @@ button{ font: inherit; }
 .fab--primary:hover{ background: linear-gradient(180deg, #34d399, var(--primary2)); }
 
 @media (max-width: 720px){
+  .mode-brochure{
+    --ui-left: 58px;
+    --ui-bottom: 94px;
+  }
   .pager{ left: 10px; padding: 8px; }
   .pager__dot{ width: 30px; height: 30px; font-size: 12px; }
   .brochure-page{ padding: 16px 10px; }
